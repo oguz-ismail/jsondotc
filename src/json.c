@@ -380,13 +380,13 @@ parse_value:
 	}
 pop:
 	if (i == 0) {
-		if (dst)
-			*dst = x;
-		if (lenp)
-			/* trailing whitespace is part of a complete JSON value */
-			*lenp = skip_ws(s)-start;
-		free(stk);
-		return JSON_PARSE_SUCCESS;
+		/* trailing whitespace is part of a complete JSON value */
+		s = skip_ws(s);
+		err = JSON_PARSE_SUCCESS;
+		if (!dst)
+			goto error;
+		*dst = x;
+		goto done;
 	}
 	i--;
 	switch (stk[i]->type) {
@@ -485,6 +485,7 @@ error:
 		stk[i]->type = 0;
 		i--;
 	}
+done:
 	free(stk);
 	if (lenp)
 		*lenp = s-start;
@@ -729,9 +730,6 @@ error:
 
 static void
 free_string(struct json_string *s) {
-#if JSON_FREE_ERASE_STRINGS
-	memset(s->bytes, 0, s->length);
-#endif
 	s->length = 0;
 	FREE_AND_NULL(s->bytes);
 }

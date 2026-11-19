@@ -24,4 +24,3 @@ Macros below, if defined as non-zero during compilation, change behavior as desc
 |-|-|
 |`JSON_STRINGIFY_ESCAPE_SLASH`|`json_stringify()` escapes slash characters (`/`) embedded in strings.|
 |`JSON_STRINGIFY_DONT_VALIDATE`|`json_stringify()` doesn't perform standards conformity checks on strings and numbers.|
-|`JSON_FREE_ERASE_STRINGS`|`json_free()` zeroes strings before freeing them.|
